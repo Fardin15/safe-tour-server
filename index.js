@@ -29,33 +29,33 @@ async function run() {
     // await client.connect();
 
     const collection = client.db("allSpot").collection("spots");
-
+    // get all spot
     app.get("/addspot", async (req, res) => {
       const cursor = collection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
-
+    // get specific spot by id
     app.get("/addspot/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await collection.findOne(query);
       res.send(result);
     });
-
+    // post
     app.post("/addspot", async (req, res) => {
       const spot = req.body;
       const result = await collection.insertOne(spot);
       res.send(result);
     });
-
+    // get specific spot by email
     app.get("/mylist/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
       const result = await collection.find(query).toArray();
       res.send(result);
     });
-
+    // update specific spot by id
     app.put("/addspot/:id", async (req, res) => {
       const id = req.params.id;
       const updatedSpot = req.body;
@@ -78,7 +78,7 @@ async function run() {
       const result = await collection.updateOne(filter, updateDoc, options);
       res.send(result);
     });
-
+    // delete specific spot by id
     app.delete("/addspot/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
