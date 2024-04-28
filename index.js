@@ -10,7 +10,7 @@ app.use(express.json());
 // mohammadshowrav15
 // toRD82Sau77k7tzb
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri =
   "mongodb+srv://mohammadshowrav15:toRD82Sau77k7tzb@cluster0.lnrcai2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -36,9 +36,23 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/addspot/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await collection.findOne(query);
+      res.send(result);
+    });
+
     app.post("/addspot", async (req, res) => {
       const spot = req.body;
       const result = await collection.insertOne(spot);
+      res.send(result);
+    });
+
+    app.get("/mylist/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const result = await collection.find(query).toArray();
       res.send(result);
     });
 
