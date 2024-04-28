@@ -29,6 +29,7 @@ async function run() {
     // await client.connect();
 
     const collection = client.db("allSpot").collection("spots");
+    const countryCollection = client.db("countryDb").collection("country");
     // get all spot
     app.get("/addspot", async (req, res) => {
       const cursor = collection.find();
@@ -83,6 +84,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await collection.deleteOne(query);
+      res.send(result);
+    });
+
+    // contry data
+    app.get("/country", async (req, res) => {
+      const cursor = countryCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
     });
 
