@@ -56,6 +56,29 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/addspot/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedSpot = req.body;
+      console.log(updatedSpot);
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          country: updatedSpot.country,
+          spot: updatedSpot.spot,
+          location: updatedSpot.location,
+          description: updatedSpot.description,
+          photo: updatedSpot.photo,
+          cost: updatedSpot.cost,
+          season: updatedSpot.season,
+          time: updatedSpot.time,
+          visitors: updatedSpot.visitors,
+        },
+      };
+      const result = await collection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     console.log(
